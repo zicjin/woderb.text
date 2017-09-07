@@ -9,7 +9,7 @@
  * This source is subject to Hankcs. Please contact Hankcs to get more information.
  * </copyright>
  */
-package HanLPDemo;
+package HanLPDemo.Segment;
 
 import com.hankcs.hanlp.HanLP;
 import com.hankcs.hanlp.seg.Other.AhoCorasickDoubleArrayTrieSegment;

@@ -9,7 +9,7 @@
  * This source is subject to Hankcs. Please contact Hankcs to get more information.
  * </copyright>
  */
-package HanLPDemo;
+package HanLPDemo.Understanding;
 
 import com.hankcs.hanlp.corpus.occurrence.Occurrence;
 import com.hankcs.hanlp.corpus.occurrence.PairFrequency;

@@ -1,4 +1,4 @@
-package HanLPDemo;
+package HanLPDemo.Understanding;
 
 import com.hankcs.hanlp.HanLP;
 import com.hankcs.hanlp.corpus.dependency.CoNll.CoNLLSentence;

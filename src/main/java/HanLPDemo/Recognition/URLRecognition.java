@@ -9,7 +9,7 @@
  * This source is subject to Hankcs. Please contact Hankcs to get more information.
  * </copyright>
  */
-package HanLPDemo;
+package HanLPDemo.Recognition;
 
 import com.hankcs.hanlp.corpus.tag.Nature;
 import com.hankcs.hanlp.seg.common.Term;

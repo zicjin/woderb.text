@@ -1,4 +1,4 @@
-package HanLPDemo;
+package HanLPDemo.Segment;
 
 import com.hankcs.hanlp.seg.common.Term;
 import com.hankcs.hanlp.tokenizer.IndexTokenizer;

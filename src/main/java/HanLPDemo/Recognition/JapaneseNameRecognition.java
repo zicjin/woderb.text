@@ -1,4 +1,4 @@
-package HanLPDemo;
+package HanLPDemo.Recognition;
 
 import com.hankcs.hanlp.HanLP;
 import com.hankcs.hanlp.seg.Segment;

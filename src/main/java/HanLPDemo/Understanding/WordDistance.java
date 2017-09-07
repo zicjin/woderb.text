@@ -1,4 +1,4 @@
-package HanLPDemo;
+package HanLPDemo.Understanding;
 
 import com.hankcs.hanlp.dictionary.CoreSynonymDictionary;
 
@@ -32,13 +32,21 @@ public class WordDistance {
             "教师",
             "会计",
         };
+        String[] wordArray2 = new String[]
+        {
+            "京东白条",
+            "支付宝",
+            "微信",
+            "顺丰",
+            "京东",
+        };
         System.out.printf("%-5s\t%-5s\t%-10s\t%-5s\n", "词A", "词B", "语义距离", "语义相似度");
         for (String a : wordArray) {
             for (String b : wordArray) {
                 System.out.printf("%-5s\t%-5s\t%-15d\t%-5.10f\n",
-                        a, b,
-                        CoreSynonymDictionary.distance(a, b),
-                        CoreSynonymDictionary.similarity(a, b)
+                    a, b,
+                    CoreSynonymDictionary.distance(a, b),
+                    CoreSynonymDictionary.similarity(a, b)
                 );
             }
         }

@@ -9,7 +9,7 @@
  * This source is subject to the LinrunSpace License. Please contact 上海林原信息科技有限公司 to get more information.
  * </copyright>
  */
-package HanLPDemo;
+package HanLPDemo.Recognition;
 
 import com.hankcs.hanlp.HanLP;
 import com.hankcs.hanlp.seg.Segment;
@@ -18,17 +18,19 @@ import com.hankcs.hanlp.seg.common.Term;
 import java.util.List;
 
 /**
- * 地名识别
+ * 机构名识别
  * @author hankcs
  */
-public class PlaceRecognition
+public class OrganizationRecognition
 {
     public static void main(String[] args)
     {
         String[] testCase = new String[]{
-                "蓝翔给宁夏固原市彭阳县红河镇黑牛沟村捐赠了挖掘机",
+                "我在上海林原科技有限公司兼职工作，",
+                "我经常在台川喜宴餐厅吃饭，",
+                "偶尔去开元地中海影城看电影。",
         };
-        Segment segment = HanLP.newSegment().enablePlaceRecognize(true);
+        Segment segment = HanLP.newSegment().enableOrganizationRecognize(true);
         for (String sentence : testCase)
         {
             List<Term> termList = segment.seg(sentence);

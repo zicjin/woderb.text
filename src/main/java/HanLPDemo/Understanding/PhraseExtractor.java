@@ -9,7 +9,7 @@
  * This source is subject to the LinrunSpace License. Please contact 上海林原信息科技有限公司 to get more information.
  * </copyright>
  */
-package HanLPDemo;
+package HanLPDemo.Understanding;
 
 import com.hankcs.hanlp.HanLP;
 
@@ -49,7 +49,7 @@ public class PhraseExtractor
                 "在通信物理层等一维信息领域目前常用的算法：无线领域的RRM、RTT，传送领域的调制解调、信道均衡、信号检测、网络优化、信号分解等。\n" +
                 "另外数据挖掘、互联网搜索算法也成为当今的热门方向。\n" +
                 "算法工程师逐渐往人工智能方向发展。";
-        List<String> phraseList = HanLP.extractPhrase(text, 5);
+        List<String> phraseList = HanLP.extractPhrase(text, 10);
         System.out.println(phraseList);
     }
 }

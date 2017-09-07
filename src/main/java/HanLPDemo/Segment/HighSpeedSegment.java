@@ -1,4 +1,4 @@
-package HanLPDemo;
+package HanLPDemo.Segment;
 
 import com.hankcs.hanlp.HanLP;
 import com.hankcs.hanlp.tokenizer.SpeedTokenizer;

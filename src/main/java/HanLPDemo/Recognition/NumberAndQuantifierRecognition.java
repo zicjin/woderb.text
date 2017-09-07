@@ -8,7 +8,7 @@
  * Copyright (c) 2003-2015, hankcs. All Right Reserved, http://www.hankcs.com/
  * </copyright>
  */
-package HanLPDemo;
+package HanLPDemo.Recognition;
 
 import com.hankcs.hanlp.tokenizer.StandardTokenizer;
 
