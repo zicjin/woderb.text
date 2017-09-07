@@ -1,6 +1,10 @@
+import com.google.gson.Gson;
+
 import static spark.Spark.*;
 
 public class HelloWorld {
+    private static Gson gson = new Gson();
+
     public static void main(String[] args) {
         //  port(5678); <- listen to port 5678 instead of the default 4567
 
@@ -15,7 +19,7 @@ public class HelloWorld {
         get("/hello.json", "application/json", (request, response) -> "{\"message\": \"Hello World\"}");
         get("/hello.json2", "application/json", (request, response) -> {
             return new Books.Book("xxxx", "yyyy");
-        }, new JsonTransformer());
+        }, gson::toJson);
 
         post("/hello", (request, response) ->
                 "Hello World: " + request.body()

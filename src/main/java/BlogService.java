@@ -38,8 +38,8 @@ public class BlogService {
 
         get("/posts", (request, response) -> {
             response.type("application/json");
-            return gson.toJson(model.getAllPosts());
-        });
+            return model.getAllPosts();
+        }, gson::toJson);
     }
 
     public static class Model {
