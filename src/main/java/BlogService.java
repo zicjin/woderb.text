@@ -1,9 +1,6 @@
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.core.JsonParseException;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
-import java.io.IOException;
-import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,68 +12,33 @@ public class BlogService {
 
     private static final int HTTP_BAD_REQUEST = 400;
 
-    interface Validable {
-        boolean isValid();
-    }
-
-    static class NewPostPayload implements Validable {
-        private String title;
-        private List categories;
-        private String content;
-
-        public String getTitle() { return title; }
-        public void setTitle(String title) { this.title = title; }
-        public List getCategories() { return categories; }
-        public void setCategories(List categories){ this.categories = categories; }
-        public String getContent() { return content; }
-        public void setContent(String content) { this.content = content; }
-
-        public boolean isValid() {
-            return title != null && !title.isEmpty() && !categories.isEmpty();
-        }
-    }
-
-    public static String dataToJson(Object data) {
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.enable(SerializationFeature.INDENT_OUTPUT);
-            StringWriter sw = new StringWriter();
-            mapper.writeValue(sw, data);
-            return sw.toString();
-        } catch (IOException e){
-            throw new RuntimeException("IOException from a StringWriter?");
-        }
-    }
-
     // fiddler POST test:
     // Host: localhost:4567
     // Content-Type: application/json; charset=utf-8
     // {"title": "zxczxc", "categories": ["xzczxc", "cxvdss"], "content":"ewrwer"}
     public static void main( String[] args) {
         Model model = new Model();
+        Gson gson = new Gson();
 
         post("/posts", (request, response) -> {
             try {
-                ObjectMapper mapper = new ObjectMapper();
-                NewPostPayload creation = mapper.readValue(request.body(), NewPostPayload.class);
+                NewPostPayload creation = gson.fromJson(request.body(), NewPostPayload.class);
                 if (!creation.isValid()) {
                     response.status(HTTP_BAD_REQUEST);
                     return "";
                 }
                 int id = model.createPost(creation.getTitle(), creation.getContent(), creation.getCategories());
-                response.status(200);
                 response.type("application/json");
                 return id;
-            } catch (JsonParseException jpe) {
+            } catch (JsonSyntaxException jpe) {
                 response.status(HTTP_BAD_REQUEST);
                 return "";
             }
         });
 
         get("/posts", (request, response) -> {
-            response.status(200);
             response.type("application/json");
-            return dataToJson(model.getAllPosts());
+            return gson.toJson(model.getAllPosts());
         });
     }
 
@@ -113,6 +75,27 @@ public class BlogService {
 
         public List getAllPosts(){
             return (List) posts.keySet().stream().sorted().map((id) -> posts.get(id)).collect(Collectors.toList());
+        }
+    }
+
+    interface Validable {
+        boolean isValid();
+    }
+
+    static class NewPostPayload implements Validable {
+        private String title;
+        private List categories;
+        private String content;
+
+        public String getTitle() { return title; }
+        public void setTitle(String title) { this.title = title; }
+        public List getCategories() { return categories; }
+        public void setCategories(List categories){ this.categories = categories; }
+        public String getContent() { return content; }
+        public void setContent(String content) { this.content = content; }
+
+        public boolean isValid() {
+            return title != null && !title.isEmpty() && !categories.isEmpty();
         }
     }
 }
