@@ -1,4 +1,5 @@
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import static spark.Spark.*;
 
@@ -11,8 +12,11 @@ public class HelloWorld {
         get("/hello", (request, response) -> "Hello World!");
 
         // Will serve all static file are under "/public" in classpath if the route isn't consumed by others routes.
-        // When using Maven, the "/public" folder is assumed to be in "/main/resources"
-        staticFileLocation("/public");
+        // When using Maven, the "/public" folder is assumed to be in "/main/resources/public"
+        // if (localhost) {
+        //     staticFiles.expireTime(3);
+        // }
+        staticFiles.location("/public");
 
         //Running curl -i -H "Accept: application/json" http://localhost:4567/hello.json json message is read.
         //Running curl -i -H "Accept: text/html" http://localhost:4567/hello.json HTTP 404 error is thrown.
@@ -48,5 +52,16 @@ public class HelloWorld {
         });
 
         get("/", (request, response) -> "root");
+
+        notFound("<html><body><h1>Custom 404 handling</h1></body></html>");
+        internalServerError((req, res) -> {
+            res.type("application/json");
+            return "{\"message\":\"Custom 500 handling\"}";
+        });
+        exception(JsonSyntaxException.class, (exception, request, res) -> {
+            // Handle the exception
+        });
+
+        threadPool(8, 2, 30000);
     }
 }

@@ -10,8 +10,6 @@ import static spark.Spark.*;
 
 public class BlogService {
 
-    private static final int HTTP_BAD_REQUEST = 400;
-
     // fiddler POST test:
     // Host: localhost:4567
     // Content-Type: application/json; charset=utf-8
@@ -24,15 +22,14 @@ public class BlogService {
             try {
                 NewPostPayload creation = gson.fromJson(request.body(), NewPostPayload.class);
                 if (!creation.isValid()) {
-                    response.status(HTTP_BAD_REQUEST);
+                    response.status(400);
                     return "";
                 }
                 int id = model.createPost(creation.getTitle(), creation.getContent(), creation.getCategories());
                 response.type("application/json");
                 return id;
             } catch (JsonSyntaxException jpe) {
-                response.status(HTTP_BAD_REQUEST);
-                return "";
+                return halt(500, "JsonSyntaxException!");
             }
         });
 
