@@ -47,7 +47,7 @@ public class SimHash {
             if (keywordList.containsKey(term.word)) {
                 weight = keywordList.get(term.word);
             }
-            System.out.println(term.word + " " + weight);
+            // System.out.println(term.word + " " + weight);
             // 将每一个分词hash为一组固定长度的数列.比如 64bit 的一个整数.
             BigInteger t = this.hash(term.word);
             for (int i = 0; i < this.hashbits; i++) {
@@ -162,13 +162,14 @@ public class SimHash {
     }
 
     public static void main(String[] args) throws IOException {
-//        BigInteger ss = new BigInteger("1").shiftLeft(20);
-//        System.out.println(ss);
-//        SimHash hash1 = new SimHash("传统的 hash 算法只负责将原始内容尽量均匀随机地映射为一个签名值", 64);
-//        BigInteger t = hash1.hash("传统");
-//        System.out.println("intSimHash:" + hash1.intSimHash);
-//        System.out.println(t.toString());
-//        System.out.println(t.and(ss).signum());
+        // 用于理解实施逻辑，为什么用 new BigInteger("1").shiftLeft(i)  &运算  word hash
+//        BigInteger test1 = new BigInteger("64");
+//        System.out.println(test1.toString(2));
+//        BigInteger test2 = new BigInteger("2343423");
+//        System.out.println(test2.toString(2));
+//        BigInteger result = test1.and(test2);
+//        System.out.println(result);
+//        System.out.println(result.signum());
 
         String s = "小米再对 MIX2 进行预热 主要突出 「无边框」 主题";
         SimHash hash1 = new SimHash(s, 64);
