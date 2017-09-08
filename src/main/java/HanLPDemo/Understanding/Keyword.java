@@ -22,7 +22,10 @@ public class Keyword
         String content3 = "互联网群组信息服务管理规定公布：对使用者实名认证";
         String content4 = "互联网群组群主及管理者应规范群组信息发布";
         String content5 = "网信办公布网络用户公众账号信息服务管理规定";
-        List<String> keywordList = HanLP.extractKeyword(content5, 5);
+        List<String> keywordList = HanLP.extractKeyword(content2, 5);
         System.out.println(keywordList);
+
+        List<String> keywordList2 = HanLP.extractKeyword(content2, 7);
+        System.out.println(keywordList2);
     }
 }
