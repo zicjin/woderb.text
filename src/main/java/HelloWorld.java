@@ -54,10 +54,12 @@ public class HelloWorld {
         get("/", (request, response) -> "root");
 
         notFound("<html><body><h1>Custom 404 handling</h1></body></html>");
+
         internalServerError((req, res) -> {
             res.type("application/json");
             return "{\"message\":\"Custom 500 handling\"}";
         });
+
         exception(JsonSyntaxException.class, (exception, request, res) -> {
             // Handle the exception
         });
