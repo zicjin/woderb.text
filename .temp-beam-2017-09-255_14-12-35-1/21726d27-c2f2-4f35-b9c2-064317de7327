@@ -1,0 +1,15 @@
+libs: 1
+all: 1
+artifact: 4
+v: 2
+http: 2
+io: 2
+streaming: 1
+com: 17
+mongo: 2
+compileOnly: 2
+testCompile: 2
+hamcrest: 2
+spark: 16
+apis: 2
+system: 1

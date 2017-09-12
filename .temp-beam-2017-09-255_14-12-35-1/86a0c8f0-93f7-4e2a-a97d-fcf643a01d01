@@ -1,0 +1,14 @@
+direct: 2
+targetCompatibility: 1
+services: 2
+org: 18
+jul: 1
+beam: 12
+mongodb: 2
+cloud: 1
+mvnrepository: 4
+pubsub: 1
+java: 6
+file: 1
+runners: 3
+code: 2

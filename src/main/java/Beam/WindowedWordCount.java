@@ -15,14 +15,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.beam.examples;
+package Beam;
 
 import java.io.IOException;
 import java.util.concurrent.ThreadLocalRandom;
 
-import org.apache.beam.examples.common.ExampleBigQueryTableOptions;
-import org.apache.beam.examples.common.ExampleOptions;
-import org.apache.beam.examples.common.WriteOneFilePerWindow;
+import Beam.common.ExampleBigQueryTableOptions;
+import Beam.common.ExampleOptions;
+import Beam.common.WriteOneFilePerWindow;
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.PipelineResult;
 import org.apache.beam.sdk.io.TextIO;

@@ -1,0 +1,15 @@
+sourceCompatibility: 1
+junit: 4
+apply: 1
+time: 2
+fasterxml: 1
+repositories: 1
+simple: 1
+https: 4
+exclude: 5
+core: 4
+jdk: 5
+client: 4
+includes: 1
+platform: 1
+dir: 1
