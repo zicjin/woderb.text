@@ -5,6 +5,8 @@ import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.io.mongodb.MongoDbIO;
 import org.apache.beam.sdk.metrics.Counter;
 import org.apache.beam.sdk.metrics.Metrics;
+import org.apache.beam.sdk.options.PipelineOptions;
+import org.apache.beam.sdk.options.PipelineOptionsFactory;
 import org.apache.beam.sdk.transforms.*;
 import org.apache.beam.sdk.values.KV;
 import org.apache.beam.sdk.values.PCollection;
@@ -34,36 +36,36 @@ public class WordCountByMongo {
         }
     }
 
-    public static class CountWords extends PTransform<PCollection<Document>, PCollection<Document>> {
+    public static class CountWords extends PTransform<PCollection<Document>, PCollection<KV<String, Long>>> {
         @Override
-        public PCollection<Document> expand(PCollection<Document> lines) {
+        public PCollection<KV<String, Long>> expand(PCollection<Document> lines) {
 
             // Convert lines of text into individual words.
             PCollection<String> words = lines.apply(ParDo.of(new ExtractWordsFn()));
 
             // Count the number of times each word occurs.
-            PCollection<KV<String, Long>> wordCounts = words.apply(Count.<String>perElement());
-
-            return wordCounts;
+            return words.apply(Count.<String>perElement());
         }
     }
 
-    public static class FormatAsTextFn extends SimpleFunction<KV<String, Long>, String> {
+    public static class AddToDocument extends SimpleFunction<KV<String, Long>, Document> {
         @Override
-        public String apply(KV<String, Long> input) {
-            return input.getKey() + ": " + input.getValue();
+        public Document apply(KV<String, Long> input) {
+            Document doc = new Document(input.getKey(), input.getValue());
+            return doc;
         }
     }
 
     public static void main(String[] args) {
-        Pipeline p = Pipeline.create();
+        PipelineOptions options = PipelineOptionsFactory.fromArgs(args).withValidation().as(PipelineOptions.class);
+        Pipeline p = Pipeline.create(options);
 
         p.apply(MongoDbIO.read()
                 .withUri("mongodb://zicjin_dev:z5@mongo.woderb.com:27017")
                 .withDatabase("spiderman_dev")
                 .withCollection("Articles"))
         .apply("CountWords", new CountWords())
-        .apply("Format", MapElements.via(new FormatAsTextFn()))
+        .apply("Format", MapElements.via(new AddToDocument()))
         .apply(MongoDbIO.write()
                 .withUri("mongodb://zicjin_dev:z5@mongo.woderb.com:27017")
                 .withDatabase("spiderman_dev")
