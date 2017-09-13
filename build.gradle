@@ -12,8 +12,11 @@ repositories {
 }
 
 // https://stackoverflow.com/a/21358586/346701
-mainClassName = "Beam.WordCountByMongo"
-applicationDefaultJvmArgs = ["-Dexec.args=--runner=SparkRunner"]
+//mainClassName = "Beam.WordCountByMongo"
+//applicationDefaultJvmArgs = ["-Dexec.args=--runner=SparkRunner"]
+
+mainClassName = "Beam.WordCount"
+applicationDefaultJvmArgs = ["-Dexec.args='--output=counts'"]
 
 dependencies {
     compile "com.sparkjava:spark-core:2.6.0"
