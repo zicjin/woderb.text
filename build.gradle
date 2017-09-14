@@ -2,7 +2,6 @@ group 'woderb'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
-//apply plugin: 'application'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -55,16 +54,22 @@ dependencies {
     testCompile group: 'org.apache.beam', name: 'beam-runners-direct-java', version: '2.1.0'
 }
 
-task main (type: JavaExec, dependsOn: classes) {
+task main (type: JavaExec) {
+    // gradle main -PmainClass="Beam.WordCount" -PmainArgs="['--runner=SparkRunner', '--inputFile=build.gradle', '--output=counts']"
+    // gradle main -PmainClass="Beam.WordCountByMongo" -PmainArgs="['--runner=SparkRunner']"
+
+    classpath = sourceSets.main.runtimeClasspath
+
+    if (project.hasProperty("mainClass")) {
+        main = mainClass
+    }
+
     // https://stackoverflow.com/a/29382636/346701
     if (project.hasProperty("mainArgs")) {
         args Eval.me(mainArgs)
     }
-    if (project.hasProperty("mainClass")) {
-        main = mainClass
-    }
-    classpath = sourceSets.main.runtimeClasspath
+}
 
-    // gradle main -PmainClass="Beam.WordCount" -PmainArgs="['--runner=SparkRunner', '--inputFile=build.gradle', '--output=counts']"
-    // gradle main -PmainClass="Beam.WindowedWordCount" -PmainArgs="['--runner=SparkRunner']"
+task hello {
+    println('hello!!')
 }
