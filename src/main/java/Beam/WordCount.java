@@ -170,6 +170,8 @@ public class WordCount {
     }
 
     public static void main(String[] args) {
+        System.out.print("args:" + args[0] + args[1]);
+
         WordCountOptions options = PipelineOptionsFactory.fromArgs(args).withValidation()
                 .as(WordCountOptions.class);
         Pipeline p = Pipeline.create(options);
