@@ -7,7 +7,7 @@ public class HelloWorld {
     private static Gson gson = new Gson();
 
     public static void main(String[] args) {
-        //  port(5678); <- listen to port 5678 instead of the default 4567
+        port(5678); // listen to port 5678 instead of the default 4567
 
         get("/hello", (request, response) -> "Hello World!");
 
