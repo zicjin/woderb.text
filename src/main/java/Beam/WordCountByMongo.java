@@ -51,7 +51,8 @@ public class WordCountByMongo {
     public static class AddToDocument extends SimpleFunction<KV<String, Long>, Document> {
         @Override
         public Document apply(KV<String, Long> input) {
-            Document doc = new Document(input.getKey(), input.getValue());
+            Document doc = new Document("word", input.getKey());
+            doc.put("count", input.getValue());
             return doc;
         }
     }
