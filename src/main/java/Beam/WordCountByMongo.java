@@ -58,6 +58,8 @@ public class WordCountByMongo {
     }
 
     public static void main(String[] args) {
+//        System.out.print("args.length:" + args.length + args[0]);
+
         PipelineOptions options = PipelineOptionsFactory.fromArgs(args).withValidation().as(PipelineOptions.class);
         Pipeline p = Pipeline.create(options);
 
