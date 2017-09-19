@@ -32,7 +32,7 @@ public class Keyword
         TextRankKeyword textRankKeyword = new TextRankKeyword();
         Segment segment = new com.hankcs.hanlp.seg.CRF.CRFSegment();
         textRankKeyword.setSegment(segment);
-        Map<String, Float> keywordList2 = textRankKeyword.getTermAndRank(content6, 100);
+        Map<String, Float> keywordList2 = textRankKeyword.getTermAndRank(content2, 100);
         System.out.println(keywordList2);
     }
 }
