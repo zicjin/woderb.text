@@ -1,9 +1,11 @@
 package HanLPDemo.Understanding;
 
 import com.hankcs.hanlp.HanLP;
+import com.hankcs.hanlp.seg.Segment;
 import com.hankcs.hanlp.summary.TextRankKeyword;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 关键词提取
@@ -22,10 +24,15 @@ public class Keyword
         String content3 = "互联网群组信息服务管理规定公布：对使用者实名认证";
         String content4 = "互联网群组群主及管理者应规范群组信息发布";
         String content5 = "网信办公布网络用户公众账号信息服务管理规定";
-        List<String> keywordList = HanLP.extractKeyword(content2, 5);
-        System.out.println(keywordList);
+        String content6 = "HanLP是由一系列模型与算法组成的Java工具包，目标是普及自然语言处理在生产环境中的应用。";
 
-        List<String> keywordList2 = HanLP.extractKeyword(content2, 7);
+//        List<String> keywordList = HanLP.extractKeyword(content2, 5);
+//        System.out.println(keywordList);
+
+        TextRankKeyword textRankKeyword = new TextRankKeyword();
+        Segment segment = new com.hankcs.hanlp.seg.CRF.CRFSegment();
+        textRankKeyword.setSegment(segment);
+        Map<String, Float> keywordList2 = textRankKeyword.getTermAndRank(content6, 100);
         System.out.println(keywordList2);
     }
 }

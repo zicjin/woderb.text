@@ -22,11 +22,12 @@ import java.util.List;
  *
  * @author hankcs
  */
-public class SegmentDemo
+public class StandardSegment
 {
     public static void main(String[] args)
     {
         String[] testCase = new String[]{
+                "HanLP是由一系列模型与算法组成的Java工具包，目标是普及自然语言处理在生产环境中的应用。",
                 "商品和服务",
                 "结婚的和尚未结婚的确实在干扰分词啊",
                 "买水果然后来世博园最后去世博会",
