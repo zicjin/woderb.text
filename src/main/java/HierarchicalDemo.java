@@ -15,7 +15,7 @@ public class HierarchicalDemo {
         }
 
         Hierarchical hi = new Hierarchical(nodes);
-        ArrayList<ArrayList<Hierarchical.Node>> result = hi.processHierarchical(100);
+        ArrayList<ArrayList<Hierarchical.Node>> result = hi.processHierarchical();
         for (ArrayList<Hierarchical.Node> assemble: result) {
             System.out.println("assemble:");
             for (Hierarchical.Node node: assemble) {

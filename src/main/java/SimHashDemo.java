@@ -6,8 +6,8 @@ public class SimHashDemo {
     public static void main(String[] args) throws IOException {
         // TestAndOperation();
         // Test0();
-        // Test1();
-        Test2();
+         Test1();
+//        Test2();
     }
 
     // 理解实施逻辑，为什么用 new BigInteger("1").shiftLeft(i) &运算 word hash

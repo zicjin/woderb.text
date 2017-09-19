@@ -22,8 +22,8 @@ public class Hierarchical {
 
         for (int i = 0; i < nodes.size(); ++i) {
             for (int j = i + 1; j < nodes.size(); ++j) {
-                // System.out.println("i j:" + i + j);
                 matrix[i][j] = nodes.get(i).simHash.hammingDistance(nodes.get(j).simHash);
+                System.out.println("matrix[i][j]:" + matrix[i][j] + " : " + nodes.get(i).text + " vs " + nodes.get(j).text);
             }
         }
 
@@ -60,19 +60,18 @@ public class Hierarchical {
 
     ArrayList<ArrayList<Node>> assembles;
 
-    public ArrayList<ArrayList<Node>> processHierarchical(int distance) {
+    public ArrayList<ArrayList<Node>> processHierarchical() {
         assembles = new ArrayList<>();
 
         try {
             while (true) { // 凝聚层次聚类迭代
                 minModel = findMinValueOfMatrix(matrix);
-                if (minModel.value == 0 || minModel.value > distance) { // 当找不出距离最近的两个簇时，迭代结束
+                if (minModel.value == 0) { // 当找不出距离最近的两个簇时，迭代结束
                     break;
                 }
 
                 Boolean added = false;
                 for (ArrayList<Node> assemble: assembles) {
-                    if (added) break;
                     for (Node node: assemble) {
                         if (node.id == minModel.xid) {
                             assemble.add(nodes.get(minModel.y));
@@ -84,6 +83,7 @@ public class Hierarchical {
                             break;
                         }
                     }
+                    if (added) break;
                 }
 
                 if (!added) {

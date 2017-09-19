@@ -36,7 +36,7 @@ public class SimHash {
         TextRankKeyword textRankKeyword = new TextRankKeyword();
         Segment segment = new com.hankcs.hanlp.seg.CRF.CRFSegment();
         textRankKeyword.setSegment(segment);
-        Map<String, Float> rankList = textRankKeyword.getTermAndRank(this.tokens, 100);
+        Map<String, Float> rankList = textRankKeyword.getTermAndRank(this.tokens, 10);
         List<Term> termList = segment.seg(this.tokens);
 
         termList.forEach((term) -> {
@@ -73,7 +73,7 @@ public class SimHash {
             }
         }
         this.strSimHash = simHashBuffer.toString();
-        System.out.println(this.strSimHash + " length " + this.strSimHash.length());
+        System.out.println(this.strSimHash + " " + this.tokens);
         return fingerprint;
     }
 
