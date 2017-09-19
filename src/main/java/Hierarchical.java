@@ -60,13 +60,13 @@ public class Hierarchical {
 
     ArrayList<ArrayList<Node>> assembles;
 
-    public ArrayList<ArrayList<Node>> processHierarchical() {
+    public ArrayList<ArrayList<Node>> processHierarchical(int distance) {
         assembles = new ArrayList<>();
 
         try {
             while (true) { // 凝聚层次聚类迭代
                 minModel = findMinValueOfMatrix(matrix);
-                if (minModel.value == 0 || minModel.value > 10) { // 当找不出距离最近的两个簇时，迭代结束
+                if (minModel.value == 0 || minModel.value > distance) { // 当找不出距离最近的两个簇时，迭代结束
                     break;
                 }
 

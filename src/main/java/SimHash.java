@@ -34,22 +34,14 @@ public class SimHash {
         int[] v = new int[this.hashbits];
 
         TextRankKeyword textRankKeyword = new TextRankKeyword();
-        Map<String, Float> keywordList = textRankKeyword.getTermAndRank(this.tokens, 10);
-        keywordList.forEach((key, value) -> {
-            System.out.println(key + " " + value);
-        });
+        Segment segment = new com.hankcs.hanlp.seg.CRF.CRFSegment();
+        textRankKeyword.setSegment(segment);
+        Map<String, Float> termList = textRankKeyword.getTermAndRank(this.tokens, 100);
 
-        Segment segment = new com.hankcs.hanlp.seg.CRF.CRFSegment().enableCustomDictionary(true);
-        List<Term> termList = segment.seg(this.tokens);
-
-        termList.forEach((term) -> {
-            Float weight = new Float(0.5);
-            if (keywordList.containsKey(term.word)) {
-                weight = keywordList.get(term.word);
-            }
+        termList.forEach((term, weight) -> {
             // System.out.println(term.word + " " + weight);
             // 将每一个分词hash为一组固定长度的数列.比如 64bit 的一个整数.
-            BigInteger t = hash(term.word, this.hashbits);
+            BigInteger t = hash(term, this.hashbits);
             for (int i = 0; i < this.hashbits; i++) {
                 BigInteger bitmask = new BigInteger("1").shiftLeft(i);
                 // 建立一个长度为64的整数数组(假设要生成64位的数字指纹,也可以是其它数字)
