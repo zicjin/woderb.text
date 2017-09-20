@@ -11,9 +11,10 @@ public class Hierarchical {
     public static class Node {
         String id;
         String text;
+        Boolean assembled = false;
     }
 
-    ArrayList<Node> nodes;
+    public ArrayList<Node> nodes;
 
     public Hierarchical(double[][] _matrix, ArrayList<Node> _nodes) throws IOException {
         nodes = _nodes;
@@ -51,25 +52,29 @@ public class Hierarchical {
 
     ArrayList<ArrayList<Node>> assembles;
 
-    public ArrayList<ArrayList<Node>> processHierarchical() {
+    public ArrayList<ArrayList<Node>> processHierarchical(int limit) {
         assembles = new ArrayList<>();
 
         try {
             while (true) { // 凝聚层次聚类迭代
                 minModel = findMinValueOfMatrix(matrix);
-                if (minModel.value == 0) { // 当找不出距离最近的两个簇时，迭代结束
+                if (minModel.value == 0 || minModel.value > limit) { // 当找不出距离最近的两个簇时，迭代结束
                     break;
                 }
 
                 Boolean added = false;
                 for (ArrayList<Node> assemble: assembles) {
                     for (Node node: assemble) {
+                        Node standby = null;
                         if (node.id == minModel.xid) {
-                            assemble.add(nodes.get(minModel.y));
-                            added = true;
-                            break;
+                            standby = nodes.get(minModel.y);
                         } else if (node.id == minModel.yid) {
-                            assemble.add(nodes.get(minModel.x));
+                            standby = nodes.get(minModel.x);
+                        }
+
+                        if (standby != null) {
+                            standby.assembled = true;
+                            assemble.add(standby);
                             added = true;
                             break;
                         }
@@ -79,8 +84,12 @@ public class Hierarchical {
 
                 if (!added) {
                     ArrayList<Node> assemble = new ArrayList<Node>();
-                    assemble.add(nodes.get(minModel.x));
-                    assemble.add(nodes.get(minModel.y));
+                    Node n1 = nodes.get(minModel.y);
+                    Node n2 = nodes.get(minModel.x);
+                    n1.assembled = true;
+                    n2.assembled = true;
+                    assemble.add(n1);
+                    assemble.add(n2);
                     assembles.add(assemble);
                 }
 

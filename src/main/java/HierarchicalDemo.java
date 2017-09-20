@@ -10,11 +10,11 @@ import com.hankcs.hanlp.summary.TextRankKeyword;
 public class HierarchicalDemo {
 
     public static void main(String[] args) throws IOException {
-        // Test1()
-        Test2();
+        // BySimHash()
+        ByKeyword();
     }
 
-    public static void Test1() throws IOException {
+    public static void BySimHash() throws IOException {
         ArrayList<SimHash> simHashs = new ArrayList<SimHash>();
         ArrayList<Hierarchical.Node> nodes = new ArrayList<Hierarchical.Node>();
 
@@ -37,7 +37,7 @@ public class HierarchicalDemo {
         }
 
         Hierarchical hi = new Hierarchical(matrix, nodes);
-        ArrayList<ArrayList<Hierarchical.Node>> result = hi.processHierarchical();
+        ArrayList<ArrayList<Hierarchical.Node>> result = hi.processHierarchical(10);
         for (ArrayList<Hierarchical.Node> assemble: result) {
             System.out.println("assemble:");
             for (Hierarchical.Node node: assemble) {
@@ -46,7 +46,7 @@ public class HierarchicalDemo {
         }
     }
 
-    public static void Test2() throws IOException {
+    public static void ByKeyword() throws IOException {
         ArrayList<Map<String, Float>> keylists = new ArrayList<Map<String, Float>>();
         ArrayList<Hierarchical.Node> nodes = new ArrayList<Hierarchical.Node>();
 
@@ -71,19 +71,29 @@ public class HierarchicalDemo {
             for (int j = i + 1; j < nodes.size(); ++j) {
                 Map<String, Float> ikeys = keylists.get(i);
                 Map<String, Float> jkeys = keylists.get(j);
-
                 Set<String> commonkeys = new HashSet<String>(ikeys.keySet());
                 commonkeys.retainAll(jkeys.keySet());
-                matrix[i][j] = commonkeys.size();
+                double distance = 10;
+                for (String key: commonkeys) {
+                    distance = distance - ikeys.get(key) - jkeys.get(key);
+                }
+                matrix[i][j] = distance;
+                System.out.println("matrix[i][j]:" + matrix[i][j] + " : " + nodes.get(i).text + " vs " + nodes.get(j).text);
             }
         }
 
         Hierarchical hi = new Hierarchical(matrix, nodes);
-        ArrayList<ArrayList<Hierarchical.Node>> result = hi.processHierarchical();
+        ArrayList<ArrayList<Hierarchical.Node>> result = hi.processHierarchical(8);
         for (ArrayList<Hierarchical.Node> assemble: result) {
             System.out.println("assemble:");
             for (Hierarchical.Node node: assemble) {
-                System.out.println(" [" + node.text + "]");
+                System.out.println(node.text);
+            }
+        }
+        System.out.println("lonely:");
+        for (Hierarchical.Node node: hi.nodes) {
+            if (!node.assembled) {
+                System.out.println(node.text);
             }
         }
     }
