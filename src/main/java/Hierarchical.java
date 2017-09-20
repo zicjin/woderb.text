@@ -11,23 +11,14 @@ public class Hierarchical {
     public static class Node {
         String id;
         String text;
-        SimHash simHash;
     }
 
     ArrayList<Node> nodes;
 
-    public Hierarchical(ArrayList<Node> _nodes) throws IOException {
+    public Hierarchical(double[][] _matrix, ArrayList<Node> _nodes) throws IOException {
         nodes = _nodes;
         matrix = new double[nodes.size()][nodes.size()];
-
-        for (int i = 0; i < nodes.size(); ++i) {
-            for (int j = i + 1; j < nodes.size(); ++j) {
-                matrix[i][j] = nodes.get(i).simHash.hammingDistance(nodes.get(j).simHash);
-                System.out.println("matrix[i][j]:" + matrix[i][j] + " : " + nodes.get(i).text + " vs " + nodes.get(j).text);
-            }
-        }
-
-        this.matrix = matrix;
+        this.matrix = _matrix;
     }
 
     private class Model {

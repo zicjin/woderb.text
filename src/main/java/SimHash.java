@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.hankcs.hanlp.HanLP;
+import com.hankcs.hanlp.corpus.dependency.CoNll.CoNLLSentence;
+import com.hankcs.hanlp.corpus.dependency.CoNll.CoNLLWord;
 import com.hankcs.hanlp.seg.Segment;
 import com.hankcs.hanlp.seg.common.Term;
 import com.hankcs.hanlp.summary.TextRankKeyword;
@@ -33,11 +36,12 @@ public class SimHash {
         // 定义特征向量/数组
         int[] v = new int[this.hashbits];
 
-        TextRankKeyword textRankKeyword = new TextRankKeyword();
         Segment segment = new com.hankcs.hanlp.seg.CRF.CRFSegment();
+        List<Term> termList = segment.seg(this.tokens);
+
+        TextRankKeyword textRankKeyword = new TextRankKeyword();
         textRankKeyword.setSegment(segment);
         Map<String, Float> rankList = textRankKeyword.getTermAndRank(this.tokens, 10);
-        List<Term> termList = segment.seg(this.tokens);
 
         termList.forEach((term) -> {
             Float weight = new Float(0.5);
@@ -73,7 +77,7 @@ public class SimHash {
             }
         }
         this.strSimHash = simHashBuffer.toString();
-        System.out.println(this.strSimHash + " " + this.tokens);
+        // System.out.println(this.strSimHash + " " + this.tokens);
         return fingerprint;
     }
 

@@ -25,6 +25,9 @@ public class Keyword
         String content4 = "互联网群组群主及管理者应规范群组信息发布";
         String content5 = "网信办公布网络用户公众账号信息服务管理规定";
         String content6 = "HanLP是由一系列模型与算法组成的Java工具包，目标是普及自然语言处理在生产环境中的应用。";
+        String s7 = "北京交通委：共享单车每辆车都应打钢印 一般 3 年报废";
+        String s8 = "北京确认共享单车 3 年 「报废」 上路车辆完好率不低于 95%";
+        String s9 = "北京共享单车新规：设电子地图展示停放区禁停区等";
 
 //        List<String> keywordList = HanLP.extractKeyword(content2, 5);
 //        System.out.println(keywordList);
@@ -32,7 +35,14 @@ public class Keyword
         TextRankKeyword textRankKeyword = new TextRankKeyword();
         Segment segment = new com.hankcs.hanlp.seg.CRF.CRFSegment();
         textRankKeyword.setSegment(segment);
-        Map<String, Float> keywordList2 = textRankKeyword.getTermAndRank(content2, 100);
+
+        Map<String, Float> keywordList2 = textRankKeyword.getTermAndRank(s7, 5);
         System.out.println(keywordList2);
+
+        Map<String, Float> keywordList3 = textRankKeyword.getTermAndRank(s8, 5);
+        System.out.println(keywordList3);
+
+        Map<String, Float> keywordList4 = textRankKeyword.getTermAndRank(s9, 5);
+        System.out.println(keywordList4);
     }
 }

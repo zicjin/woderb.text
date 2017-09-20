@@ -104,9 +104,9 @@ public class WindowedWordCount {
         private final Instant minTimestamp;
         private final Instant maxTimestamp;
 
-        AddTimestampFn(Instant minTimestamp, Instant maxTimestamp) {
-            this.minTimestamp = minTimestamp;
-            this.maxTimestamp = maxTimestamp;
+        AddTimestampFn(Long minTimestamp, Long maxTimestamp) {
+            this.minTimestamp = new Instant(minTimestamp);;
+            this.maxTimestamp = new Instant(maxTimestamp);;
         }
 
         @ProcessElement
@@ -177,21 +177,19 @@ public class WindowedWordCount {
     public static void main(String[] args) throws IOException {
         Options options = PipelineOptionsFactory.fromArgs(args).withValidation().as(Options.class);
         final String output = options.getOutput();
-        final Instant minTimestamp = new Instant(options.getMinTimestampMillis());
-        final Instant maxTimestamp = new Instant(options.getMaxTimestampMillis());
-
         Pipeline pipeline = Pipeline.create(options);
 
         /**
          * Concept #1: the Beam SDK lets us run the same pipeline with either a bounded or
          * unbounded input source.
          */
+        AddTimestampFn addTimestamp = new AddTimestampFn(options.getMinTimestampMillis(), options.getMaxTimestampMillis());
         PCollection<String> input = pipeline
             /** Read from the GCS file. */
             .apply(TextIO.read().from(options.getInputFile()))
             // Concept #2: Add an element timestamp, using an artificial time just to show windowing.
             // 给每条数据一个随机时间戳（在区间内）
-            .apply(ParDo.of(new AddTimestampFn(minTimestamp, maxTimestamp)));
+            .apply(ParDo.of(addTimestamp));
 
         /**
          * Concept #3: Window into fixed windows. The fixed window size for this example defaults to 1
@@ -199,13 +197,15 @@ public class WindowedWordCount {
          * information on how fixed windows work, and for information on the other types of windowing
          * available (e.g., sliding windows).
          */
-        // 只处理这么多分钟的数据。PTransforms 可以处理并集合多个windows的结果（这里没有多个windows）
+        // 每次只处理这么多getWindowSize时间内的数据，称为一个windows
+        // PTransforms 可以集合并处理多个windows的结果（这里没有多个windows）
         PCollection<String> windowedWords = input.apply(
             Window.<String>into(
                 FixedWindows.of(Duration.standardMinutes(options.getWindowSize()))
             )
         );
         // 流处理中Window的概念: http://blog.csdn.net/lmalds/article/details/51604501
+        // https://beam.apache.org/documentation/programming-guide/#windowing
 
         /**
          * Concept #4: Re-use our existing CountWords transform that does not have knowledge of

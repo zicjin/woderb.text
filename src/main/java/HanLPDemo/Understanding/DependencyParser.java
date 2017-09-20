@@ -12,7 +12,10 @@ public class DependencyParser
 {
     public static void main(String[] args)
     {
-        CoNLLSentence sentence = HanLP.parseDependency("徐先生还具体帮助他确定了把画雄鹰、松鼠和麻雀作为主攻目标。");
+        String s1 = "尽管 CEO 放狠话 摩根大通仍提供比特币交易服务";
+        String s2 = "徐先生还具体帮助他确定了把画雄鹰、松鼠和麻雀作为主攻目标。";
+        String s3 = "北京交通委：共享单车每辆车都应打钢印 一般 3 年报废";
+        CoNLLSentence sentence = HanLP.parseDependency(s3);
         System.out.println(sentence);
         // 可以方便地遍历它
         for (CoNLLWord word : sentence)

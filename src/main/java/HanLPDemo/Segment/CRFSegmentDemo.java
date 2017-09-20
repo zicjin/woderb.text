@@ -27,13 +27,13 @@ public class CRFSegmentDemo
 {
     public static void main(String[] args)
     {
-        HanLP.Config.ShowTermNature = false;    // 关闭词性显示
+        HanLP.Config.ShowTermNature = true;    // 关闭词性显示
         Segment segment = new com.hankcs.hanlp.seg.CRF.CRFSegment().enableCustomDictionary(false);
         String[] sentenceArray = new String[]
             {
-                "HanLP是由一系列模型与算法组成的Java工具包，目标是普及自然语言处理在生产环境中的应用。",
+                //"HanLP是由一系列模型与算法组成的Java工具包，目标是普及自然语言处理在生产环境中的应用。",
 //                "鐵桿部隊憤怒情緒集結 馬英九腹背受敵",           // 繁体无压力
-//                "馬英九回應連勝文“丐幫說”：稱黨內同志談話應謹慎",
+                "馬英九回應連勝文“丐幫說”：稱黨內同志談話應謹慎",
 //                "高锰酸钾，强氧化剂，紫红色晶体，可溶于水，遇乙醇即被还原。常用作消毒剂、水净化剂、氧化剂、漂白剂、毒气吸收剂、二氧化碳精制剂等。", // 专业名词有一定辨识能力
 //                "《夜晚的骰子》通过描述浅草的舞女在暗夜中扔骰子的情景,寄托了作者对庶民生活区的情感",    // 非新闻语料
 //                "这个像是真的[委屈]前面那个打扮太江户了，一点不上品...@hankcs",                       // 微博

@@ -1,8 +1,21 @@
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+import com.hankcs.hanlp.seg.Segment;
+import com.hankcs.hanlp.summary.TextRankKeyword;
 
 public class HierarchicalDemo {
+
     public static void main(String[] args) throws IOException {
+        // Test1()
+        Test2();
+    }
+
+    public static void Test1() throws IOException {
+        ArrayList<SimHash> simHashs = new ArrayList<SimHash>();
         ArrayList<Hierarchical.Node> nodes = new ArrayList<Hierarchical.Node>();
 
         for (String text : contents)
@@ -10,11 +23,62 @@ public class HierarchicalDemo {
             Hierarchical.Node node = new Hierarchical.Node();
             node.id = java.util.UUID.randomUUID().toString();
             node.text =  text;
-            node.simHash = new SimHash(text, 64);
             nodes.add(node);
+            simHashs.add(new SimHash(text, 64));
         }
 
-        Hierarchical hi = new Hierarchical(nodes);
+        double[][] matrix = new double[nodes.size()][nodes.size()];
+
+        for (int i = 0; i < nodes.size(); ++i) {
+            for (int j = i + 1; j < nodes.size(); ++j) {
+                matrix[i][j] = simHashs.get(i).hammingDistance(simHashs.get(j));
+                System.out.println("matrix[i][j]:" + matrix[i][j] + " : " + nodes.get(i).text + " vs " + nodes.get(j).text);
+            }
+        }
+
+        Hierarchical hi = new Hierarchical(matrix, nodes);
+        ArrayList<ArrayList<Hierarchical.Node>> result = hi.processHierarchical();
+        for (ArrayList<Hierarchical.Node> assemble: result) {
+            System.out.println("assemble:");
+            for (Hierarchical.Node node: assemble) {
+                System.out.println(" [" + node.text + "]");
+            }
+        }
+    }
+
+    public static void Test2() throws IOException {
+        ArrayList<Map<String, Float>> keylists = new ArrayList<Map<String, Float>>();
+        ArrayList<Hierarchical.Node> nodes = new ArrayList<Hierarchical.Node>();
+
+        TextRankKeyword textRankKeyword = new TextRankKeyword();
+        Segment segment = new com.hankcs.hanlp.seg.CRF.CRFSegment();
+        textRankKeyword.setSegment(segment);
+
+        for (String text : contents)
+        {
+            Hierarchical.Node node = new Hierarchical.Node();
+            node.id = java.util.UUID.randomUUID().toString();
+            node.text =  text;
+            nodes.add(node);
+
+            Map<String, Float> keys = textRankKeyword.getTermAndRank(text, 5);
+            keylists.add(keys);
+        }
+
+        double[][] matrix = new double[nodes.size()][nodes.size()];
+
+        for (int i = 0; i < nodes.size(); ++i) {
+            for (int j = i + 1; j < nodes.size(); ++j) {
+                Map<String, Float> ikeys = keylists.get(i);
+                Map<String, Float> jkeys = keylists.get(j);
+
+                Set<String> commonkeys = new HashSet<String>(ikeys.keySet());
+                commonkeys.retainAll(jkeys.keySet());
+                matrix[i][j] = commonkeys.size();
+            }
+        }
+
+        Hierarchical hi = new Hierarchical(matrix, nodes);
         ArrayList<ArrayList<Hierarchical.Node>> result = hi.processHierarchical();
         for (ArrayList<Hierarchical.Node> assemble: result) {
             System.out.println("assemble:");

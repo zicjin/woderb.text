@@ -6,8 +6,8 @@ public class SimHashDemo {
     public static void main(String[] args) throws IOException {
         // TestAndOperation();
         // Test0();
-         Test1();
-//        Test2();
+        // Test1();
+        Test2();
     }
 
     // 理解实施逻辑，为什么用 new BigInteger("1").shiftLeft(i) &运算 word hash
@@ -86,16 +86,15 @@ public class SimHashDemo {
     }
 
     private static String[] contents = new String[] {
+            "北京交通委：共享单车每辆车都应打钢印 一般 3 年报废",
             "苹果 CEO 库克每天 3:45 起床 会收到 700 到 800 份电子邮件",
             "尽管 CEO 放狠话 摩根大通仍提供比特币交易服务",
             "腾讯联合广汽集团开发联网汽车 后者股价上涨 5%",
             "广汽与腾讯达成战略合作协议，围绕汽车全产业链展开业务与资本合作",
             "广汽和腾讯达成合作，深耕车联网、智能汽车和大数据 | 钛快讯",
-
             "摩根大通否认在欧洲悄悄低吸比特币：是客户自己买的！",
-
             "苹果 CEO 也不轻松！3:45 起床，会收到 700 到 800 份邮件",
-            "北京交通委：共享单车每辆车都应打钢印 一般 3 年报废",
+
             "北京确认共享单车 3 年 「报废」 上路车辆完好率不低于 95%",
             "北京共享单车新规：设电子地图展示停放区禁停区等",
             "工商总局近日将约谈苹果 遭 80 余家 App 开发者举报垄断",
