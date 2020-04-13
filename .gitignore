@@ -46,3 +46,6 @@ gradle-app.setting
 .idea
 /out
 /.vs
+
+.settings
+.project
